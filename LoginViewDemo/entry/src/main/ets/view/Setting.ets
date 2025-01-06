@@ -1,17 +1,20 @@
+import ItemData from '../viewModel/ItemData'
+import mainViewModel from '../viewModel/MainViewModel'
+
 @Preview
 @Component
 export default struct Setting {
   @Builder
-  settingCell(title: ResourceStr, img: Resource, others?: ResourceStr) {
+  settingCell(item: ItemData) {
     Row() {
       Row() {
-        Image(img)
+        Image(item.img)
           .height('22vp')
           .margin({left: '16vp', right: '16vp'})
-        Text(title)
+        Text(item.title)
           .fontSize('16fp')
       }
-      if (others == undefined) {
+      if (item.others == undefined) {
         Image($r('app.media.right_grey'))
           .width('12vp')
           .height('24vp')
@@ -53,34 +56,45 @@ export default struct Setting {
       }
       .alignItems(VerticalAlign.Center)
       .width('100%')
-      List() {
-        ListItem() {
-          this.settingCell('推送通知', $r('app.media.news'), '开关')
-        }
-        .height('48vp')
-        ListItem() {
-          this.settingCell('字体调节大小', $r('app.media.data'))
-        }
-        .height('48vp')
-        ListItem() {
-          this.settingCell('菜单设置', $r('app.media.menu'))
-        }
-        .height('48vp')
-        ListItem() {
-          this.settingCell('清除缓存', $r('app.media.storage'))
-        }
-        .height('48vp')
-        ListItem() {
-          this.settingCell('隐私协议', $r('app.media.person_shield'))
-        }
-        .height('48vp')
-        ListItem() {
-          this.settingCell('关于', $r('app.media.about'))
-        }
-        .height('48vp')
+      List({space: '12vp'}) {
+         ForEach(mainViewModel.getSettingData(), (item: ItemData[]) => {
+           ListItemGroup() {
+             ForEach(item, (cell: ItemData) => {
+               ListItem() {
+                 this.settingCell(cell)
+               }
+               .height('48vp')
+             })
+           }
+           .divider({
+             strokeWidth: '1vp',
+             color: '#0d00000',
+             startMargin: '42vp',
+             endMargin: '24vp'
+           })
+           .backgroundColor('#ffffff')
+           .borderRadius('16vp')
+
+         }, (item: ItemData) => JSON.stringify(item))
       }
+      .width('100%')
+      .scrollBar(BarState.Off)
+      .padding({
+        top: '4vp',
+        bottom: '4vp'
+      })
+
+      Blank()
+
+      Button('退出登录', {type: ButtonType.Capsule})
+        .width('90%')
+        .height('40vp')
+        .fontColor('#fa2a2d')
+        .backgroundColor('#e5e8ea')
+        .margin({bottom: '16vp'})
     }
     .width('100%')
     .height('100%')
+    .backgroundColor('#f5f5f5')
   }
 }
