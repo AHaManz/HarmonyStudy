@@ -23,7 +23,7 @@ function blueTextStyle() {
 
 @Entry
 @Component
-struct Index {
+struct LoginPage {
   @Builder
   imageButton(src: Resource) {
     Button() {
@@ -91,6 +91,6 @@ struct Index {
     .width('100%')
     .height('100%')
     .backgroundColor('#F1F3F5')
-    .padding({left: '12vp', right: '12vp', bottom: '2vp'})
+    .padding({left: '12vp', right: '12vp', bottom: '2 vp'})
   }
 }

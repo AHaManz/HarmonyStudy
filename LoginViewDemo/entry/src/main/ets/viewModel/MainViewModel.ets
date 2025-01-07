@@ -25,6 +25,20 @@ export class MainViewModel {
 
        return images;
      }
+
+     getFirstGridData(): Array<ItemData> {
+       let firstGridData: ItemData[] = [
+          new ItemData(0, '我的最爱', $r('app.media.love')),
+          new ItemData(1, '历史记录', $r('app.media.record')),
+          new ItemData(2, '消息', $r('app.media.message')),
+          new ItemData(3, '购物车', $r('app.media.shopping')),
+          new ItemData(4, '我的目标', $r('app.media.target')),
+          new ItemData(5, '圈子', $r('app.media.circle')),
+          new ItemData(6, '收藏', $r('app.media.favorite')),
+          new ItemData(7, '回收站', $r('app.media.recycle'))
+       ];
+       return firstGridData;
+    }
 }
 
 export default new MainViewModel();
