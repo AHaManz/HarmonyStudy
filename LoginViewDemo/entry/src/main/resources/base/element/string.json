@@ -19,6 +19,10 @@
     {
       "name": "Tab_Bar_Two",
       "value": "我的"
+    },
+    {
+      "name": "input_empty_tips",
+      "value": "输入信息为空"
     }
   ]
 }

@@ -1,7 +1,11 @@
 import Home from "../view/Home"
 import Setting from "../view/Setting"
 
-@Entry
+@Builder
+export function MainPageBuilder() {
+  MainPage()
+}
+
 @Component
 export struct MainPage {
   private tabsController: TabsController = new TabsController();
@@ -32,7 +36,8 @@ export struct MainPage {
   }
 
   build() {
-    Column() {
+    NavDestination() {
+      Column() {
         Tabs({
           barPosition: BarPosition.End,
           controller: this.tabsController
@@ -52,9 +57,10 @@ export struct MainPage {
         .onChange((index: number) => {
           this.curIndex = index;
         })
+      }
+      .width('100%')
+      .height('100%')
+      .backgroundColor('#f5f5f5')
     }
-    .width('100%')
-    .height('100%')
-    .backgroundColor('#f5f5f5')
   }
 }
