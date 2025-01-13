@@ -62,5 +62,7 @@ export struct MainPage {
       .height('100%')
       .backgroundColor('#f5f5f5')
     }
+    .height('100%')
+    .hideTitleBar(true)
   }
 }

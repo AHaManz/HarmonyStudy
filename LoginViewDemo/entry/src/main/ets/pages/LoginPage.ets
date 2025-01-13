@@ -120,6 +120,9 @@ struct LoginPage {
       .backgroundColor('#F1F3F5')
       .padding({left: '12vp', right: '12vp', bottom: '2 vp'})
     }
+    .height('100%')
+    .width('100%')
     .backgroundColor('#F1F3F5')
+    .hideToolBar(true)
   }
 }
