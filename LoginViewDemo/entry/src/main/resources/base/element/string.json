@@ -23,6 +23,14 @@
     {
       "name": "input_empty_tips",
       "value": "输入信息为空"
+    },
+    {
+      "name": "network_info",
+      "value": "获取你的网络信息"
+    },
+    {
+      "name": "network",
+      "value": "需要你的网络授权"
     }
   ]
 }
