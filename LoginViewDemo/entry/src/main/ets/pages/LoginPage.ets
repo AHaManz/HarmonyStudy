@@ -1,4 +1,5 @@
 import { promptAction } from '@kit.ArkUI';
+import ConnectionUtils from '../common/network/ConnectionUtils';
 import { MainPage } from './MainPage';
 
 @Extend(TextInput)
@@ -29,6 +30,8 @@ function blueTextStyle() {
 struct LoginPage {
   @State account: string = '';
   @State password: string = '';
+  @State isShowProgress: boolean = false;
+  private timeOutId: number = -1;
   pathStack: NavPathStack = new NavPathStack();
 
   @Builder
@@ -47,7 +50,20 @@ struct LoginPage {
         message: $r('app.string.input_empty_tips')
       })
     } else {
-      this.pathStack.pushPathByName('MainPage', null)
+      if (this.timeOutId === -1) {
+        this.isShowProgress = true
+        this.timeOutId = setTimeout(async ()=> {
+          this.isShowProgress = false
+          this.timeOutId = -1
+          if(result) {
+            this.pathStack.pushPathByName('MainPage', null)
+          } else {
+            promptAction.showToast({
+              message: '无网络连接，无法登录'
+            })
+          }
+        }, 2000)
+      }
     }
   }
 
@@ -96,13 +112,25 @@ struct LoginPage {
           .fontSize('16fp')
           .backgroundColor('#007DFF')
           .margin({top: '48vp', bottom: '12vp'})
-          .onClick(() => {
-            this.login(true)
+          .onClick(async () => {
+            await ConnectionUtils.isNetworkConnected().then((value: boolean) => {
+              this.login(value)
+            })
           })
         Text('注册账号')
           .fontColor('#007DFF')
           .fontSize('16fp')
           .fontWeight(FontWeight.Medium)
+
+        if (this.isShowProgress) {
+          LoadingProgress()
+            .color('#182431')
+            .width('30vp')
+            .height('30vp')
+            .margin({ top: '20vp' })
+        }
+
+        Blank()
 
         Text('其他登录方式')
           .fontColor('#838D97')

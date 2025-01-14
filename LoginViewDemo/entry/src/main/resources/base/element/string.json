@@ -31,6 +31,18 @@
     {
       "name": "network",
       "value": "需要你的网络授权"
+    },
+    {
+      "name": "Network_Available",
+      "value": "网络可用"
+    },
+    {
+      "name": "Network_Unavailable",
+      "value": "网络不可用"
+    },
+    {
+      "name": "Network_Lost",
+      "value": "断开链接"
     }
   ]
 }

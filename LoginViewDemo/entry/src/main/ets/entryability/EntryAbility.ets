@@ -1,15 +1,18 @@
 import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
+import ConnectionUtils from '../common/network/ConnectionUtils'
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
     this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET);
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onCreate');
+    ConnectionUtils.openRegister();
   }
 
   onDestroy(): void {
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onDestroy');
+
   }
 
   onWindowStageCreate(windowStage: window.WindowStage): void {
@@ -21,6 +24,7 @@ export default class EntryAbility extends UIAbility {
         hilog.error(0x0000, 'testTag', 'Failed to load the content. Cause: %{public}s', JSON.stringify(err) ?? '');
         return;
       }
+      ConnectionUtils.registerNetworkAvailableStatus();
       hilog.info(0x0000, 'testTag', 'Succeeded in loading the content.');
     });
   }
@@ -28,6 +32,7 @@ export default class EntryAbility extends UIAbility {
   onWindowStageDestroy(): void {
     // Main window is destroyed, release UI related resources
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onWindowStageDestroy');
+    ConnectionUtils.closeRegister()
   }
 
   onForeground(): void {
