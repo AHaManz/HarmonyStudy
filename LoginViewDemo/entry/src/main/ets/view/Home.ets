@@ -1,9 +1,29 @@
+import { HttpUtils } from "../common/network/HttpUtils";
 import ItemData from "../viewModel/ItemData"
 import mainViewModel from "../viewModel/MainViewModel"
+import ListInfo from "../viewModel/ResponseData/ListInfo";
+import { common } from '@kit.AbilityKit';
 
 @Preview
 @Component
 export default struct Home {
+  @State httpGridItems: Array<ListInfo> = [];
+  @State pictureUrl: string = '';
+  private context = getContext(this) as common.UIAbilityContext;
+  private applicationContext = this.context.getApplicationContext();
+  private cachDir = this.applicationContext.filesDir;
+
+  async aboutToAppear(): Promise<void> {
+    let httpUtil = new HttpUtils();
+    await httpUtil.postHttpRequest().then((value: ListInfo[]) => {
+      this.httpGridItems = value;
+    });
+    await httpUtil.getHttpRequest(this.cachDir).then((value: string) => {
+      this.pictureUrl = value;
+    })
+    httpUtil.destoryHttpRequest();
+  }
+
   build() {
     Column() {
       Text('首页')
@@ -40,6 +60,57 @@ export default struct Home {
       .height('156vp')
       .borderRadius('16fp')
       .margin({top: '12vp'})
+
+      Text('列表')
+        .fontSize('18fp')
+        .fontWeight(700)
+        .width('100%')
+        .margin({
+          top: '18vp',
+          bottom: '8vp'
+        })
+
+      List() {
+        ForEach(this.httpGridItems, (secondItem: ListInfo) => {
+          ListItem() {
+            Row() {
+              Image(secondItem.indexNavPic)
+                .width('130vp')
+                .height('80vp')
+                .objectFit(ImageFit.TOP_START)
+                .borderRadius('8vp')
+                .margin({right: '12vp'})
+              Column() {
+                Text(secondItem.activityName)
+                  .width('190vp')
+                  .textOverflow({ overflow: TextOverflow.Ellipsis })
+                  .maxLines(1)
+                  .fontSize('16fp')
+                  .fontWeight(FontWeight.Medium)
+                Text(secondItem.theme)
+                  .width('190vp')
+                  .textOverflow({ overflow: TextOverflow.Ellipsis })
+                  .maxLines(2)
+                  .margin({ top: '4vp' })
+                  .fontSize('12fp')
+                  .fontColor('#99182431')
+                Row() {
+                  Image(this.pictureUrl)
+                    .width('20vp')
+                    .opacity(0.5)
+                }
+                .width('170vp')
+                .margin({ top: '10.5vp' })
+                .justifyContent(FlexAlign.End)
+                .alignItems(VerticalAlign.Bottom)
+              }
+              .alignItems(HorizontalAlign.Start)
+            }
+            .width('100%')
+          }
+        }, (item: ListInfo) => JSON.stringify(item))
+      }
+      .width('100%')
     }
     .padding({left: '12vp', right: '12vp'})
     .width('100%')
