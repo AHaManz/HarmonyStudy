@@ -1,5 +1,7 @@
+import { PreferenceUtil } from "../common/datadb/PreferencesUtil";
 import Home from "../view/Home"
 import Setting from "../view/Setting"
+import PreferencesUtil from "../common/datadb/PreferencesUtil"
 
 @Builder
 export function MainPageBuilder() {
@@ -10,6 +12,12 @@ export function MainPageBuilder() {
 export struct MainPage {
   private tabsController: TabsController = new TabsController();
   @State curIndex: number = 0;
+  @StorageLink('fontSizeOffset') fontSizeOffset: number = 0;
+
+  aboutToAppear(): void {
+    this.fontSizeOffset = PreferencesUtil.getChangeFontSize()
+  }
+
   @Builder
   TabBuilder(title: Resource, index: number, selectedImg: Resource) {
     Column() {

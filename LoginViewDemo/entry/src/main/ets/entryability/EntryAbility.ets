@@ -2,10 +2,12 @@ import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.Ab
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
 import ConnectionUtils from '../common/network/ConnectionUtils'
+import PreferenceUtil from '../common/datadb/PreferencesUtil';
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
     this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET);
+    PreferenceUtil.getFontPreference(this.context);
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onCreate');
     ConnectionUtils.openRegister();
   }

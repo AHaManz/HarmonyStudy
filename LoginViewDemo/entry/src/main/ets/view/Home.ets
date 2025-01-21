@@ -10,6 +10,8 @@ import { RCPUtils } from "../common/network/RCPUtils";
 export default struct Home {
   @State httpGridItems: Array<ListInfo> = [];
   @State pictureUrl: string = '';
+  @StorageLink('fontSizeOffset') fontSizeOffset: number = 0;
+
   private context = getContext(this) as common.UIAbilityContext;
   private applicationContext = this.context.getApplicationContext();
   private cachDir = this.applicationContext.filesDir;
@@ -39,7 +41,7 @@ export default struct Home {
       Text('首页')
         .width('100%')
         .margin({top: '48vp', bottom: '12vp'})
-        .fontSize('26fp')
+        .fontSize(26 + this.fontSizeOffset)
         .fontWeight(700)
       Scroll() {
         Column() {
@@ -57,7 +59,7 @@ export default struct Home {
                 Column() {
                   Image(item.img)
                     .width('40vp').height('40vp')
-                  Text(item.title).fontSize('12fp').margin({top: '4vp'})
+                  Text(item.title).fontSize(12 + this.fontSizeOffset).margin({top: '4vp'})
                 }
               }
             }, (item: ItemData) => JSON.stringify(item))
@@ -74,7 +76,7 @@ export default struct Home {
           .margin({top: '12vp'})
 
           Text('列表')
-            .fontSize('18fp')
+            .fontSize(18 + this.fontSizeOffset)
             .fontWeight(700)
             .width('100%')
             .margin({
@@ -97,14 +99,14 @@ export default struct Home {
                       .width('190vp')
                       .textOverflow({ overflow: TextOverflow.Ellipsis })
                       .maxLines(1)
-                      .fontSize('16fp')
+                      .fontSize(16 + this.fontSizeOffset)
                       .fontWeight(FontWeight.Medium)
                     Text(secondItem.theme)
                       .width('190vp')
                       .textOverflow({ overflow: TextOverflow.Ellipsis })
                       .maxLines(2)
                       .margin({ top: '4vp' })
-                      .fontSize('12fp')
+                      .fontSize(12 + this.fontSizeOffset)
                       .fontColor('#99182431')
                     Row() {
                       Image(this.pictureUrl)
